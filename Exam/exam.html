@@ -1,0 +1,133 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+	<title></title>
+	<meta name="generator" content="LibreOffice 6.0.7.3 (Linux)"/>
+	<meta name="created" content="00:00:00"/>
+	<meta name="changed" content="00:00:00"/>
+	<style type="text/css">
+		@page { size: 8.5in 11in; margin: 1in }
+		p { margin-bottom: 0.1in; line-height: 115% }
+	</style>
+</head>
+<body lang="en" dir="ltr">
+<p style="margin-bottom: 0in"><font size="4" style="font-size: 14pt"><b>Coursera
+ML Project</b></font></p>
+<p style="margin-bottom: 0in"><br/>
+
+</p>
+<p style="margin-bottom: 0in">Data files were downloaded in the same
+directory where the R script was executed:</p>
+<p style="margin-bottom: 0in">&gt; wget
+https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv</p>
+<p style="margin-bottom: 0in">&gt; wget
+https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv</p>
+<p style="margin-bottom: 0in"> 
+</p>
+<p style="margin-bottom: 0in">Each point below correspond to one part
+of the R script:</p>
+<p style="margin-bottom: 0in"><br/>
+
+</p>
+<ol>
+	<li/>
+<p style="margin-bottom: 0in"><b>Get samples and first
+	cleansing</b></p>
+</ol>
+<p style="margin-left: 0.5in; margin-bottom: 0in">Training and
+testing file are loaded with <b>read.csv </b>function.</p>
+<p style="margin-left: 0.5in; margin-bottom: 0in">By inspecting the
+raw data for some variables are missing, empty and unphysical, all
+those fields (“#DIV/0!”, “”) will be replaced with NA using
+the <b>na.strings</b> function</p>
+<p style="margin-left: 0.5in; margin-bottom: 0in"><br/>
+
+</p>
+<ol start="2">
+	<li/>
+<p style="margin-bottom: 0in"><b>More cleansing</b></p>
+</ol>
+<p style="margin-left: 0.5in; margin-bottom: 0in">Remove the
+irrelevant columns (first 7) and NA fields using <b>colSums</b> and
+<b>is.na</b> functions</p>
+<p style="margin-left: 0.5in; margin-bottom: 0in"><br/>
+
+</p>
+<p style="margin-left: 0.5in; margin-bottom: 0in"><img src="exam_html_6bd9ea38545045c2.png" name="image2.png" align="bottom" width="624" height="91" border="0"/>
+</p>
+<p style="margin-left: 0.5in; margin-bottom: 0in"><br/>
+
+</p>
+<ol start="3">
+	<li/>
+<p style="margin-bottom: 0in"><b>Split cleaned training Data </b>
+	</p>
+</ol>
+<p style="margin-left: 0.5in; margin-bottom: 0in">In two parts (70%
+and 30%) for cross validation with <b>createDataPartition</b></p>
+<p style="margin-left: 0.5in; margin-bottom: 0in"><br/>
+
+</p>
+<ol start="4">
+	<li/>
+<p style="margin-bottom: 0in"><b>Training random forest model</b></p>
+</ol>
+<p style="margin-left: 0.5in; margin-bottom: 0in">Using cross
+validation (k-fold = 4)</p>
+<p style="margin-left: 0.5in; margin-bottom: 0in">Execute training,
+prediction for &quot;classe&quot; and random-forest method and 250
+trees</p>
+<p style="margin-left: 0.5in; margin-bottom: 0in"><br/>
+
+</p>
+<ol start="5">
+	<li/>
+<p style="margin-bottom: 0in"><b>Check performance on
+	validation data </b>
+	</p>
+</ol>
+<p style="margin-left: 0.5in; margin-bottom: 0in">Execute the
+prediction on validation data with predict function from training and
+generate the confusion matrix, check out-of-sample errors</p>
+<p style="margin-left: 0.5in; margin-bottom: 0in">Accuracy estimation
+with <b>postResample</b> function</p>
+<p style="margin-left: 0.5in; margin-bottom: 0in"><br/>
+
+</p>
+<p style="margin-left: 0.5in; margin-bottom: 0in"><img src="exam_html_b06f3331fbd11607.png" name="image3.png" align="bottom" width="372" height="300" border="0"/>
+</p>
+<p style="margin-left: 0.5in; margin-bottom: 0in"><br/>
+
+</p>
+<p style="margin-left: 0.5in; margin-bottom: 0in">The accurancy is of
+99.9%, few out-of-samples</p>
+<p style="margin-left: 0.5in; margin-bottom: 0in"><br/>
+
+</p>
+<ol start="6">
+	<li/>
+<p style="margin-bottom: 0in"><b>Classification of test data</b></p>
+</ol>
+<p style="margin-left: 0.5in; margin-bottom: 0in">The model is
+finally applied to the cleaned test data and the result is shown
+below</p>
+<p style="margin-left: 0.5in; margin-bottom: 0in"><br/>
+
+</p>
+<p style="margin-left: 0.5in; margin-bottom: 0in"><img src="exam_html_b851f69bce8438b5.png" name="image1.png" align="bottom" width="603" height="124" border="0"/>
+</p>
+<p style="margin-left: 0.5in; margin-bottom: 0in"><br/>
+
+</p>
+<p style="margin-left: 0.5in; margin-bottom: 0in"><br/>
+
+</p>
+<p style="margin-left: 0.5in; margin-bottom: 0in"><br/>
+
+</p>
+<p style="margin-left: 0.5in; margin-bottom: 0in"><br/>
+
+</p>
+</body>
+</html>

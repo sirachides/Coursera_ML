@@ -1,0 +1,103 @@
+
+R version 3.4.4 (2018-03-15) -- "Someone to Lean On"
+Copyright (C) 2018 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+[Previously saved workspace restored]
+
+> library(caret)
+Loading required package: lattice
+Loading required package: ggplot2
+> library(rpart)
+> library(rpart.plot)
+> library(RColorBrewer)
+> library(rattle)
+Rattle: A free graphical interface for data science with R.
+Version 5.2.0 Copyright (c) 2006-2018 Togaware Pty Ltd.
+Type 'rattle()' to shake, rattle, and roll your data.
+> library(e1071)
+> library(randomForest)
+randomForest 4.6-14
+Type rfNews() to see new features/changes/bug fixes.
+
+Attaching package: ‘randomForest’
+
+The following object is masked from ‘package:rattle’:
+
+    importance
+
+The following object is masked from ‘package:ggplot2’:
+
+    margin
+
+> library(mlbench)
+> set.seed(1)
+> 
+> # Get data
+> train.data.raw <- read.csv("pml-training.csv", na.strings=c("NA","#DIV/0!",""))
+> test.data.raw <- read.csv("pml-testing.csv", na.strings=c("NA","#DIV/0!",""))
+> 
+> # Cleans data
+> # Drop the first 7 columns as they're unnecessary for predicting.
+> train.data.clean1 <- train.data.raw[,8:length(colnames(train.data.raw))]
+> test.data.clean1 <- test.data.raw[,8:length(colnames(test.data.raw))]
+> 
+> # Drop colums with NAs
+> train.data.clean1 <- train.data.clean1[, colSums(is.na(train.data.clean1)) == 0]
+> test.data.clean1 <- test.data.clean1[, colSums(is.na(test.data.clean1)) == 0]
+> 
+> # Check for near zero variance predictors and drop them if necessary
+> nzv <- nearZeroVar(train.data.clean1,saveMetrics=TRUE)
+> zero.var.ind <- sum(nzv$nzv)
+> 
+> if ((zero.var.ind>0)) {
++         train.data.clean1 <- train.data.clean1[,nzv$nzv==FALSE]
++ }
+> 
+> # Data slice
+> in.training <- createDataPartition(train.data.clean1$classe, p=0.70, list=F)
+> train.data.final <- train.data.clean1[in.training, ]
+> validate.data.final <- train.data.clean1[-in.training, ]
+> 
+> # Data training
+> control.parms <- trainControl(method="cv", 5)
+> rf.model <- train(classe ~ ., data=train.data.final, method="rf",
++                  trControl=control.parms, ntree=251)
+> rf.model
+Random Forest 
+
+13737 samples
+   52 predictor
+    5 classes: 'A', 'B', 'C', 'D', 'E' 
+
+No pre-processing
+Resampling: Cross-Validated (5 fold) 
+Summary of sample sizes: 10990, 10990, 10989, 10990, 10989 
+Resampling results across tuning parameters:
+
+  mtry  Accuracy   Kappa    
+   2    0.9907547  0.9883044
+  27    0.9909733  0.9885816
+  52    0.9820921  0.9773451
+
+Accuracy was used to select the optimal model using the largest value.
+The final value used for the model was mtry = 27.
+> 
+> 
+> proc.time()
+   user  system elapsed 
+358.740   0.923 359.958 
